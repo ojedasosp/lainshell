@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "ags": "ags run -d ."
+  },
+  "dependencies": {
+    "sass": "^1.99.0"
+  }
+}

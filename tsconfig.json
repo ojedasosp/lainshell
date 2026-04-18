@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "ags/gtk4",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "strict": false,
+    "target": "ES2020",
+    "baseUrl": ".",
+    "paths": {
+      "ags": ["/usr/share/ags/js/lib/index.ts"],
+      "ags/*": ["/usr/share/ags/js/lib/*"],
+      "ags/app": ["/usr/share/ags/js/lib/app/index.ts"],
+      "ags/gtk4": ["/usr/share/ags/js/lib/gtk4/index.ts"],
+      "ags/gtk4/app": ["/usr/share/ags/js/lib/gtk4/app.ts"],
+      "ags/gtk4/jsx-runtime": ["/usr/share/ags/js/lib/gtk4/jsx-runtime.ts"],
+      "ags/gtk3": ["/usr/share/ags/js/lib/gtk3/index.ts"],
+      "ags/gtk3/app": ["/usr/share/ags/js/lib/gtk3/app.ts"],
+      "ags/gtk3/jsx-runtime": ["/usr/share/ags/js/lib/gtk3/jsx-runtime.ts"],
+      "gnim": ["/usr/share/ags/js/node_modules/gnim/dist/index.ts"],
+      "gnim/*": ["/usr/share/ags/js/node_modules/gnim/dist/*"]
+    }
+  }
+}

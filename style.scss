@@ -1,0 +1,125 @@
+// --- Color Variables (Gruvbox Material Style) ---
+$bg_dark:    #282828;
+$bg_light:   #32302f;
+$border_dim: #625343;
+$border_br:  #766451;
+$fg_main:    #d4be98;
+$fg_dim:     #917a53;
+$fg_bright:  #ddc7a1;
+
+// Accent Colors
+$red:    #db4934;
+$orange: #fe8019;
+$yellow: #b8bb26;
+$green:  #689d6a;
+$blue:   #83a598;
+$aqua:   #8ec07c;
+
+// --- Base Reset ---
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    font-size: 12px;
+    padding: 0;
+}
+
+window.Bar {
+    background-color: $bg_dark;
+}
+
+// --- Shared Module Spacing ---
+.custom-power, .clock, .tray, .cpu, .memory,
+.battery, .network, .window, .pulseaudio, .disk {
+    margin: 6px 3px 6px 0px;
+    padding: 2px 8px;
+}
+
+// --- Workspaces ---
+.workspaces {
+    margin: 6px;
+    border: 2px solid $border_dim;
+    background-color: $bg_dark;
+
+    button {
+        all: initial;
+        min-width: 0;
+        padding: 2px 8px;
+        color: $fg_dim;
+
+        &.active,
+        &.focused {
+            color: $fg_bright;
+            background-color: $border_dim;
+        }
+
+        &.urgent {
+            background-color: $red;
+            color: $bg_dark;
+        }
+    }
+}
+
+// --- Menus & Tooltips ---
+tooltip {
+    background-color: $bg_dark;
+    border: 2px solid $border_br;
+
+    label {
+        color: $fg_main;
+        padding: 8px;
+    }
+}
+
+.tray {
+    color: #c9af82;
+
+    menu {
+        background: $bg_dark;
+        padding: 8px;
+        border: 1px solid $border_dim;
+
+        menuitem {
+            color: $fg_main;
+            padding: 4px 8px;
+
+            &:hover {
+                color: $bg_dark;
+                background: $fg_main;
+            }
+        }
+    }
+}
+
+// --- Module Specific Styles ---
+.clock {
+    border: 2px solid $border_dim;
+    color: $fg_main;
+}
+
+.custom-power {
+    color: $red;
+    font-weight: bold;
+}
+
+.window {
+    color: #c9af82;
+}
+
+// --- Status Accent Borders ---
+.cpu    { color: $orange; }
+.memory { color: $blue; }
+.network { color: $green; }
+.pulseaudio { color: $yellow; }
+.disk   { color: $red; }
+
+// --- Critical / Warning States ---
+.cpu.critical,
+.memory.critical,
+.battery.warning,
+.battery.critical,
+.battery.urgent {
+    background-color: #c9af82;
+    border: 2px solid $fg_dim;
+    color: #c14a4a;
+}
