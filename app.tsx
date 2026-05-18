@@ -1,15 +1,15 @@
 import { createBinding, For, This } from "ags"
 import app from "ags/gtk4/app"
 import style from "./style.scss"
-import Bar from "./Bar"
+import Dashboard, { toggleDashboard } from "Dashboard"
 
 app.start({
   css: style,
-  // It's usually best to go with the default Adwaita theme
-  // and built off of it, instead of allowing the system theme
-  // to potentially mess something up when it is changed.
-  // Note: `* { all:unset }` in css is not recommended.
   gtkTheme: "Adwaita",
+  requestHandler(request: string[], res: (r: unknown) => void) {
+    if(request.includes("toggle-dashboard")) { toggleDashboard(); res("ok") }
+    else res("unknown request")
+  },
   main() {
     const monitors = createBinding(app, "monitors")
 
@@ -17,7 +17,7 @@ app.start({
       <For each={monitors}>
         {(monitor) => (
           <This this={app}>
-            <Bar gdkmonitor={monitor} />
+            <Dashboard gdkmonitor={monitor} />
           </This>
         )}
       </For>

@@ -1,6 +1,7 @@
-// --- Color Variables (Gruvbox Material Style) ---
+// --- Color Variables (Gruvbox Material) ---
 $bg_dark:    #282828;
 $bg_light:   #32302f;
+$bg_card:    #3c3836;
 $border_dim: #625343;
 $border_br:  #766451;
 $fg_main:    #d4be98;
@@ -24,102 +25,222 @@ $aqua:   #8ec07c;
     padding: 0;
 }
 
-window.Bar {
-    background-color: $bg_dark;
-}
-
-// --- Shared Module Spacing ---
-.custom-power, .clock, .tray, .cpu, .memory,
-.battery, .network, .window, .pulseaudio, .disk {
-    margin: 6px 3px 6px 0px;
-    padding: 2px 8px;
-}
-
-// --- Workspaces ---
-.workspaces {
-    margin: 6px;
-    border: 2px solid $border_dim;
-    background-color: $bg_dark;
-
-    button {
-        all: initial;
-        min-width: 0;
-        padding: 2px 8px;
-        color: $fg_dim;
-
-        &.active,
-        &.focused {
-            color: $fg_bright;
-            background-color: $border_dim;
-        }
-
-        &.urgent {
-            background-color: $red;
-            color: $bg_dark;
-        }
-    }
-}
-
-// --- Menus & Tooltips ---
+// --- Tooltips ---
 tooltip {
     background-color: $bg_dark;
     border: 2px solid $border_br;
-
     label {
         color: $fg_main;
         padding: 8px;
     }
 }
 
-.tray {
-    color: #c9af82;
+// ── Dashboard overlay ─────────────────────────────────────────────────────────
 
-    menu {
-        background: $bg_dark;
-        padding: 8px;
-        border: 1px solid $border_dim;
+window.Dashboard {
+    background-color: transparent;
+}
 
-        menuitem {
+.dashboard-inner {
+    background-color: $bg_dark;
+    border: 2px solid $border_dim;
+    border-top: none;
+    padding: 14px;
+    min-width: 760px;
+}
+
+// ── Column layout ─────────────────────────────────────────────────────────────
+
+.col {
+    min-width: 0;
+}
+
+.left-col  { min-width: 160px; }
+.right-col { min-width: 240px; }
+
+// ── Shared card base ──────────────────────────────────────────────────────────
+
+.card {
+    background-color: $bg_card;
+    border: 2px solid $border_dim;
+    padding: 12px 14px;
+
+    .card-header {
+        color: $fg_dim;
+        font-size: 10px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+}
+
+// ── DateTime card ─────────────────────────────────────────────────────────────
+
+.datetime-card {
+    .time-label {
+        color: $fg_bright;
+        font-size: 36px;
+        font-weight: bold;
+    }
+
+    .date-label {
+        color: $fg_dim;
+        font-size: 11px;
+    }
+}
+
+// ── Workspaces card ───────────────────────────────────────────────────────────
+
+.workspaces-card {
+    .ws-btn {
+        all: initial;
+        min-width: 24px;
+        padding: 3px 8px;
+        color: $fg_dim;
+        font-size: 11px;
+
+        &.focused {
+            color: $fg_bright;
+            background-color: $border_dim;
+        }
+
+        &:hover:not(.focused) {
             color: $fg_main;
-            padding: 4px 8px;
-
-            &:hover {
-                color: $bg_dark;
-                background: $fg_main;
-            }
         }
     }
 }
 
-// --- Module Specific Styles ---
-.clock {
-    border: 2px solid $border_dim;
-    color: $fg_main;
+// ── Power / session card ──────────────────────────────────────────────────────
+
+.power-card {
+    .power-btn {
+        all: initial;
+        color: $red;
+        font-size: 32px;
+        font-weight: bold;
+        padding: 6px 16px;
+        border: 2px solid $red;
+
+        &:hover {
+            background-color: $red;
+            color: $bg_dark;
+        }
+    }
 }
 
-.custom-power {
-    color: $red;
-    font-weight: bold;
+// ── Calendar card ─────────────────────────────────────────────────────────────
+
+.calendar-card {
+    .cal-text {
+        font-family: monospace;
+        font-size: 12px;
+        color: $fg_main;
+    }
 }
 
-.window {
-    color: #c9af82;
+// ── System info card ──────────────────────────────────────────────────────────
+
+.sysinfo-card {
+    .stat-lbl {
+        color: $fg_dim;
+        font-size: 11px;
+    }
+
+    .stat-val {
+        color: $fg_main;
+        font-size: 11px;
+    }
+
+    .stat-bar {
+        min-height: 5px;
+
+        trough {
+            min-height: 5px;
+            background-color: $bg_dark;
+            border: 1px solid $border_dim;
+        }
+
+        block.filled {
+            min-height: 5px;
+        }
+
+        &.cpu  block.filled { background-color: $orange; }
+        &.gpu  block.filled { background-color: $aqua;   }
+        &.mem  block.filled { background-color: $blue;   }
+        &.disk block.filled { background-color: $red;    }
+    }
 }
 
-// --- Status Accent Borders ---
-.cpu    { color: $orange; }
-.memory { color: $blue; }
-.network { color: $green; }
-.pulseaudio { color: $yellow; }
-.disk   { color: $red; }
+// ── Media card ────────────────────────────────────────────────────────────────
 
-// --- Critical / Warning States ---
-.cpu.critical,
-.memory.critical,
-.battery.warning,
-.battery.critical,
-.battery.urgent {
-    background-color: #c9af82;
-    border: 2px solid $fg_dim;
-    color: #c14a4a;
+.media-card {
+    .cover-art {
+        min-width: 72px;
+        min-height: 72px;
+    }
+
+    .cover-placeholder {
+        min-width: 72px;
+        min-height: 72px;
+        background-color: $bg_dark;
+        border: 2px solid $border_dim;
+
+        label {
+            color: $fg_dim;
+            font-size: 24px;
+        }
+    }
+
+    .player-source {
+        color: $fg_dim;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    .player-title {
+        color: $fg_bright;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .player-artist {
+        color: $fg_main;
+        font-size: 11px;
+    }
+
+    .player-progress {
+        min-height: 3px;
+
+        trough {
+            min-height: 3px;
+            background-color: $bg_dark;
+            border: 1px solid $border_dim;
+        }
+
+        block.filled {
+            min-height: 3px;
+            background-color: $green;
+        }
+    }
+
+    .player-controls {
+        .ctrl-btn {
+            all: initial;
+            color: $fg_dim;
+            padding: 3px 8px;
+            font-size: 15px;
+            &:hover { color: $fg_bright; }
+            &:disabled { opacity: 0.3; }
+        }
+
+        .ctrl-play {
+            color: $green;
+            font-size: 18px;
+            &:hover { color: $fg_bright; }
+        }
+    }
+
+    .no-media label {
+        color: $fg_dim;
+        font-size: 11px;
+    }
 }
