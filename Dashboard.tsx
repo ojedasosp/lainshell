@@ -164,30 +164,29 @@ function SysInfoCard() {
 
 // ── Dashboard window ──────────────────────────────────────────────────────────
 
-const _wins: Astal.Window[] = []
+let _win: Astal.Window;
 
 export function toggleDashboard() {
-  _wins.forEach(w => { w.visible = !w.visible })
+  _win.visible = !_win.visible;
+  console.log(_win.visible)
 }
 
 export default function Dashboard({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
-  let win: Astal.Window
-  const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
+  const { BOTTOM } = Astal.WindowAnchor
 
   onCleanup(() => {
-    _wins.splice(_wins.indexOf(win), 1)
-    win.destroy()
+    _win.destroy()
   })
 
   return (
     <window
-      $={(self) => { win = self; _wins.push(self) }}
-      visible={true}
+      $={(self) => {_win = self}}
+      visible={false}
       namespace="my-dashboard"
       name="my-dashboard"
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.NORMAL}
-      anchor={TOP | LEFT | RIGHT}
+      anchor={BOTTOM}
       application={app}
       class="Dashboard"
     >
