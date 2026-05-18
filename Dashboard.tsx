@@ -7,6 +7,8 @@ import { createPoll } from "ags/time"
 import { execAsync, exec } from "ags/process"
 import AstalHyprland from "gi://AstalHyprland?version=0.1"
 import MediaPlayer from "./elements/MediaPlayer"
+import AstalTray from "gi://AstalTray?version=0.1"
+import Gtk from "gi://Gtk?version=4.0"
 
 // ── Stat readers ──────────────────────────────────────────────────────────────
 
@@ -70,9 +72,19 @@ function DateTimeCard() {
 
 function WorkspacesCard() {
   const hypr = AstalHyprland.get_default()
+  const tray = AstalTray.get_default()
+  const items = createBinding(tray ,"items")
   const workspaces = createBinding(hypr, "workspaces").as(
     wss => wss.filter(ws => !(ws.id >= -99 && ws.id <= -2)).sort((a, b) => a.id - b.id)
   )
+  const init = (btn: Gtk.MenuButton, item: AstalTray.TrayItem) => {
+    btn.menuModel = item.menuModel
+    btn.insert_action_group("dbusmenu", item.actionGroup)
+    item.connect("notify::action-group", () => {
+      btn.insert_action_group("dbusmenu", item.actionGroup)
+    })
+  }
+
 
   return (
     <box class="workspaces-card card" orientation={1} spacing={6}>
@@ -91,6 +103,15 @@ function WorkspacesCard() {
           )}
         </For>
       </box>
+      <box class="tray">
+        <For each={items}>
+          {(item) => (
+            <menubutton $={(self) => init(self, item)}>
+              <image gicon={createBinding(item, "gicon")}/>
+            </menubutton>
+          )}
+        </For>
+      </box>
     </box>
   )
 }
@@ -98,17 +119,14 @@ function WorkspacesCard() {
 function PowerCard() {
   const home = GLib.get_home_dir()
   return (
-    <box class="power-card card" orientation={1} spacing={6} vexpand>
-      <label class="card-header" label="Session" xalign={0} />
-      <box halign={3} valign={3} hexpand vexpand>
+      <box halign={3} valign={3}>
         <button
           class="power-btn"
           onClicked={() => execAsync(["bash", `${home}/Scripts/power-menu.sh`])}
         >
-          <label label="⏻" />
+          <label label="󰐥" />
         </button>
       </box>
-    </box>
   )
 }
 
@@ -116,7 +134,7 @@ function PowerCard() {
 
 function CalendarCard() {
   const cal = createPoll("", 60000, () => {
-    try { return exec(["cal", "-h"]) } catch { return exec("cal") }
+    try { return exec("cal") } catch { return exec(["cal", "-h"]) }
   })
 
   return (
@@ -190,21 +208,22 @@ export default function Dashboard({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
       application={app}
       class="Dashboard"
     >
-      <box class="dashboard-inner" spacing={12}>
+      <box class="dashboard-inner" orientation={1} spacing={12}>
 
-        <box class="col left-col" orientation={1} spacing={12}>
+        <box class="row left-row" spacing={12}>
           <DateTimeCard />
           <WorkspacesCard />
+          <box hexpand />
           <PowerCard />
         </box>
 
-        <box class="col center-col" orientation={1} spacing={12} hexpand>
+        <box class="row center-col" spacing={12}>
           <CalendarCard />
-          <SysInfoCard />
+          <MediaPlayer />
         </box>
 
-        <box class="col right-col" orientation={1} spacing={12}>
-          <MediaPlayer />
+        <box class="row right-row" spacing={12}>
+          <SysInfoCard />
         </box>
 
       </box>

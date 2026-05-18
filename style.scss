@@ -51,12 +51,12 @@ window.Dashboard {
 
 // ── Column layout ─────────────────────────────────────────────────────────────
 
-.col {
+.row {
     min-width: 0;
 }
 
-.left-col  { min-width: 160px; }
-.right-col { min-width: 240px; }
+.top-row  { min-width: 160px; }
+.bottom-row { min-width: 240px; }
 
 // ── Shared card base ──────────────────────────────────────────────────────────
 
@@ -111,20 +111,26 @@ window.Dashboard {
 
 // ── Power / session card ──────────────────────────────────────────────────────
 
-.power-card {
-    .power-btn {
-        all: initial;
-        color: $red;
-        font-size: 32px;
-        font-weight: bold;
-        padding: 6px 16px;
-        border: 2px solid $red;
+.power-btn {
+  all: initial;
+  color: $red;
+  padding: 2px 10px;
 
-        &:hover {
-            background-color: $red;
-            color: $bg_dark;
-        }
-    }
+  label {
+    font-size: 34px;
+    color: $red;
+  }
+
+  &:hover {
+    background-color: $red;
+    label { color: $bg_dark; }
+  }
+}
+
+.left-row .card {
+    padding: 6px 10px;
+
+    .time-label { font-size: 28px; }
 }
 
 // ── Calendar card ─────────────────────────────────────────────────────────────
@@ -243,4 +249,10 @@ window.Dashboard {
         color: $fg_dim;
         font-size: 11px;
     }
+}
+
+.tray {
+  menubutton {
+    background-color: $bg_card
+  }
 }
