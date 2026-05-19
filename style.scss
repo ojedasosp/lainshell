@@ -180,13 +180,11 @@ window.Dashboard {
 
 .media-card {
     .cover-art {
-        min-width: 72px;
-        min-height: 72px;
     }
 
     .cover-placeholder {
-        min-width: 72px;
-        min-height: 72px;
+        min-width: 32px;
+        min-height: 32px;
         background-color: $bg_dark;
         border: 2px solid $border_dim;
 
